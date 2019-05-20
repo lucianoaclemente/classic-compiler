@@ -1,0 +1,1 @@
+python classiccompiler.py -p c:\luciano\classic\classicprojects\teste1
