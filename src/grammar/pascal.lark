@@ -1,74 +1,202 @@
-// ================================================================
-// PROGRAMS AND BLOCKS
-// ================================================================
-
 program: "program"i identifier ";" block "."
 
 identifier: /\b([a-zA-Z0-9]{1,31})\b/
 
-block: label_declaration_part constant_definition_part variable_declaration_part statement_part 
+block: label_declaration_part constant_definition_part type_definition_part variable_declaration_part procedure_and_function_declaration_part statement_part 
 
-// type_definition_part
-
- 
-
-
-label_declaration_part: | "label"i label ("," label)* ";"
+label_declaration_part: empty | "label"i label ("," label)* ";"
 
 label: identifier
 
-constant_definition_part: | "const"i constant_definition (";" constant_definition)* ";" 
+constant_definition_part: empty | "const"i constant_definition (";" constant_definition)* ";" 
  
 constant_definition: identifier "=" constant 
  
-statement_part: compound_statement
+constant: primitive | constant_identifier | sign constant_identifier
+ 
+sign: "+" | "-"
+ 
+constant_identifier: identifier
+ 
+type_definition_part: empty | "type"i type_definition (";" type_definition)* ";"
+ 
+type_definition: identifier "=" type
 
-compound_statement: "begin"i "end"i
+type: simple_type | structured_type | pointer_type
+ 
+simple_type: scalar_type | subrange_type | type_identifier
+ 
+scalar_type: identifier ("," identifier)*
+ 
+subrange_type: constant ".." constant
+ 
+type_identifier: identifier
+ 
+structured_type: array_type | record_type | set_type | file_type
+ 
+array_type: "array"i index_type ("," index_type)* "of"i component_type
+ 
+index_type: simple_type
+ 
+component_type: type
+ 
+record_type: "record"i field_list "end"i
 
-// type_definition_part: | "type"i type_definition (";" type_definition)* ";"
-// type_definition: identifier "=" type
-// type: simple_type | structured_type | pointer_type
-// simple_type: scalar_type | subrange_type | type_identifier
-// scalar_type: identifier ("," identifier)*
-// subrange_type: constant ".." constant
-// structured_type: array_type | record_type | set_type | file_type
-// array_type: "array"i index_type ("," index_type)* "of"i component_type
-// index_type: simple_type
-// component_type: type
-// record_type: "record"i field_list "end"
-// field_list: fixed_part | fixed_part ";" variant_part | variant_part
-// fixed_part: record_section (";" record_section)*
-// record_section: | field_identifier ("," field_identifier)* ":" type
+field_list: fixed_part 
+//| fixed_part ";" variant_part | variant_part
+
+fixed_part: record_section (";" record_section)*
+
+record_section: field_identifier ("," field_identifier)* ":" type | empty
+ 
 // variant_type: "case"i tag_field type_identifier "of" variant (";" variant)*
 // tag_field: | field_identifier ":"
 // variant: | case_label_list ":" ( field_list )*
-// case_label_list: case_label ("," case_label)
-// case_label: constant
-// set_type: "set"i "of"i base_type
-// base_type: simple_type
-// file_type: "file"i "of"i type
-// pointer_type: type_identifier
+//case_label_list: case_label ("," case_label)
 
-variable_declaration_part: | "var"i variable_declaration (";" variable_declaration)* ";"
+case_label: constant
+ 
+set_type: "set"i "of"i base_type
+ 
+base_type: simple_type
+
+file_type: "file"i "of"i type
+
+pointer_type: type_identifier
+ 
+variable_declaration_part: empty | "var"i variable_declaration (";" variable_declaration)* ";"
 
 variable_declaration: identifier ("," identifier)* ":" type
 
-type: simple_type
+procedure_and_function_declaration_part: empty | ( procedure_or_function_declaration ";")*
 
-simple_type: type_identifier
+procedure_or_function_declaration: procedure_declaration | function_declaration
 
-type_identifier: identifier
+procedure_declaration: procedure_heading block
 
+procedure_heading: "procedure"i identifier ";" | "procedure"i identifier "(" formal_parameter_section (";" formal_parameter_section)* ")" ";"
 
+formal_parameter_section: parameter_group | "var"i parameter_group | "function"i parameter_group | "procedure"i identifier ("," identifier )*
 
+parameter_group: identifier ("," identifier)* ":" type_identifier
 
+function_declaration: function_heading block
 
+function_heading: "function"i identifier ":" result_type ";" | "function"i identifier "(" formal_parameter_section (";" formal_parameter_section)* ")" ":" result_type ";"
+
+result_type: type_identifier
+
+statement_part: compound_statement
+
+statement: unlabelled_statement | label ":" unlabelled_statement
+
+unlabelled_statement: simple_statement | structured_statement
+
+simple_statement: assignment_statement | procedure_statement | go_to_statement | empty_statement
+
+assignment_statement: variable ":=" expression | function_identifier ":=" expression
+
+variable: entire_variable | component_variable | referenced_variable
+
+entire_variable: variable_identifier
+
+variable_identifier: identifier
+
+component_variable: indexed_variable | field_designator | file_buffer
+
+indexed_variable: array_variable expression ("," expression)*
+
+array_variable: variable
+
+field_designator: record_variable "." field_identifier
+
+record_variable: variable
+
+field_identifier: identifier
+
+file_buffer: file_variable
+
+file_variable: variable
+
+referenced_variable: pointer_variable
+
+pointer_variable: variable
+
+expression: simple_expression | simple_expression relational_operator simple_expression
+
+relational_operator: "=" | "<>" | "<" | "<=" | ">=" | ">" | "in"i
+
+simple_expression: term | sign term | simple_expression adding_operator term
+
+adding_operator: "+" | "-" | "or"i
+
+term: factor | term multiplying_operator factor
+
+multiplying_operator: "*" | "/" | "div"i | "mod"i | "and"i
+
+factor: variable | unsigned_constant | "(" expression ")" | function_designator | set | "not"i factor
+ 
+unsigned_constant: primitive | constant_identifier
+ 
+function_designator: function_identifier | function_identifier "(" actual_parameter ("," actual_parameter )* ")"
+ 
+function_identifier: identifier
+ 
+set: "[" element_list "]"
+ 
+element_list: element ("," element )* | empty
+
+element: expression | expression ".." expression
+
+procedure_statement: procedure_identifier | procedure_identifier "(" actual_parameter ("," actual_parameter )* ")"
+ 
+procedure_identifier: identifier
+
+actual_parameter: expression | variable | procedure_identifier | function_identifier
+
+go_to_statement: "goto"i label
+
+empty_statement: empty
+
+empty:
+
+structured_statement: compound_statement | conditional_statement | repetitive_statement | with_statement
+
+compound_statement: "begin"i statement (";" statement )* "end"i 
+
+conditional_statement: if_statement | case_statement
+
+if_statement: "if"i expression "then"i statement | "if"i expression "then"i statement "else"i statement
+
+case_statement: "case"i expression "of"i case_list_element (";" case_list_element )* "end"i
+
+case_list_element: case_label_list ":" statement | empty
+
+case_label_list: case_label ("," case_label )*
+
+repetitive_statement: while_statement | repeat_statement | for_statement
+
+while_statement: "while"i expression "do"i statement
+
+repeat_statement: "repeat"i statement (";" statement)* "until"i expression
+
+for_statement: "for"i control_variable ":=" for_list "do"i statement
+
+control_variable: identifier
+
+for_list: initial_value "to"i final_value | initial_value "downto"i final_value
+
+initial_value: expression
+
+final_value: expression
+
+with_statement: "with"i record_variable_list "do"i statement
+
+record_variable_list: record_variable ("," record_variable)*
 
 // ================================================================
 // LOW LEVEL DEFINITIONS
 // ================================================================
-
-sign: "+" | "-"
 
 primitive: INTEGER
 		| FLOAT
@@ -77,8 +205,6 @@ primitive: INTEGER
 		| STRING
 		| HEXLITERAL
 		| BINLITERAL
-
-constant: primitive | identifier | sign identifier
 
 // ---------------------- Primitives 	   
 	      
