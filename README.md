@@ -19,6 +19,9 @@ Features:
 
 References:
 
+Lark Parser
+https://lark-parser.readthedocs.io/en/latest/
+
 Magazine - Jogos 80 - July/2014
 http://garrettimus.org/Jogos80/jogos80-13.pdf
 
