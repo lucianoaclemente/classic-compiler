@@ -3,11 +3,11 @@ Compiler written in python for classic machines (WIP)
 
 Powerful compiler that will enable the creation of programs for various classic machines such as microcomputers and video games. 
 
-This project is an evolution of OldBitsDevStudio written in CSharp between 2010 and 2014. Developed by me and my friend Angelo Marcelo. This version fixes many design errors, making it more powerful and efficient!
+This project is an evolution of **OldBitsDevStudio** written in CSharp between 2010 and 2014. Developed by me and my friend Angelo Marcelo. This version fixes many design errors, making it more powerful and efficient!
 
 Features:
 
-- It uses Lark Parser for lexical and syntactic analysis steps and basic rules for semantic analysis. Capable of supporting multiple languages as the developer likes
+- It uses **Lark Parser** for lexical and syntactic analysis steps and basic rules for semantic analysis. Capable of supporting multiple languages as the developer likes
 
 - Generation of documented assembly code
 
