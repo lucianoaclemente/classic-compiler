@@ -15,7 +15,7 @@ class Compiler:
         for root, dirs, files in os.walk(path):
             for name in files:
                 if fnmatch.fnmatch(name, pattern):
-                    result.append(os.path.join(root, name))
+                    result = [root, name]
 					
         return result
 
@@ -31,24 +31,38 @@ class Compiler:
         else:
             raise Exception(_("Arquivo de linguagem não encontrado: %s") % self.config["language"])         
 
-    def parseFile(self, program):
-        self.files.append([program, self.parser.parse(program)])
+    def parseFile(self, rootPath, program):
+        print(os.path.join(rootPath, program))
     
-    def __createDeclarations(self, tree):
-        self.analyser.createDeclarations(tree)         
+        tree = self.parser.parse(os.path.join(rootPath, program))
+    
+        self.files.append([program, tree])
+        currentFile = self.files[len(self.files)-1];
+
+        includes = []
+
+        self.analyser.checkIncludes(tree, includes)
+
+        for includeFile in includes:
+            self.parseFile(rootPath, includeFile.value)   
+    
+    def __checkDeclarations(self, tree):
+        self.analyser.checkDeclarations(tree)         
          
     def compile(self):
 		# procurando arquivo principal
         fileList = self.find('main.*', self.project.project_path)
 
-        if (len(fileList) == 1):
-            mainFile = fileList[0]
-		
+        if (len(fileList) == 2):
+            
+            rootPath = fileList[0]
+            mainFile = fileList[1]
+            
             # nivel 1 
             # parser / analyser 
             # Lexica / sintatica
 		
-            self.parseFile(mainFile)
+            self.parseFile(rootPath, mainFile)
         
             # nivel 2 
             # varre a arvore e cria todos os elementos 
@@ -57,7 +71,7 @@ class Compiler:
                 filename = file[0]
                 tree = file[1]
 			
-                self.__createDeclarations(tree)
+                self.__checkDeclarations(tree)
         else:
             raise Exception(_("Arquivo principal não foi encontrado"))   
          
