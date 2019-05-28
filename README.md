@@ -3,7 +3,7 @@ Compiler written in python for classic machines (WIP)
 
 Powerful compiler that will enable the creation of programs for various classic machines such as microcomputers and game consoles. 
 
-This project is an evolution of **OldBitsDevStudio** written in CSharp between 2010 and 2014. Developed by me and my friend Angelo Marcelo. This version fixes many design errors, making it more powerful and efficient!
+This project is an evolution of ** OldBitsDevStudio ** written initially in CSharp between 2010 and 2014. Developed by me and my friend Angelo Marcelo. This version now in Python, corrects many design errors making it more powerful and efficient!
 
 Features:
 
