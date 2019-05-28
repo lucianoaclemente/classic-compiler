@@ -40,10 +40,10 @@ try:
     compiler = Compiler(project)
     compiler.compile()
 	
+    #print(compiler.files)
     #print(LabelManager.identifiers)
-    
-    for item in compiler.analyser.constants:
-        print(item.value)
+    #for item in compiler.analyser.constants:
+    #    print(item.value)
     
     
     print(_("Compilação concluída!"))
