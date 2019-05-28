@@ -1,4 +1,5 @@
 # coding: utf-8
+from classes.common import Common
 from classes.project import Project
 from classes.parsers.ebnf import EBNF
 from classes.analyser import Analyser
@@ -8,6 +9,9 @@ import os
 import fnmatch
 
 class Compiler:
+    
+    root_path = ""
+    project_path = ""
     
     def find(self, pattern, path):
         result = []
@@ -24,16 +28,14 @@ class Compiler:
         self.analyser = Analyser()
         self.files = []         
          
-        grammarFile = "./grammar/" + self.project.config['language'] + ".lark"
+        grammarFile = os.path.join(Common.params["root_path"], "grammar/") + self.project.config['language'] + ".lark"
          
         if (os.path.exists(grammarFile)):
              self.parser = EBNF(grammarFile)
         else:
-            raise Exception(_("Arquivo de linguagem não encontrado: %s") % self.config["language"])         
+            raise Exception(_("Arquivo de linguagem não encontrado: %s") % self.project.config["language"])         
 
     def parseFile(self, rootPath, program):
-        print(os.path.join(rootPath, program))
-    
         tree = self.parser.parse(os.path.join(rootPath, program))
     
         self.files.append([program, tree])
@@ -51,7 +53,7 @@ class Compiler:
          
     def compile(self):
 		# procurando arquivo principal
-        fileList = self.find('main.*', self.project.project_path)
+        fileList = self.find('main.*', Common.params["project_path"])
 
         if (len(fileList) == 2):
             
