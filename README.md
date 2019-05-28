@@ -17,6 +17,8 @@ Features:
 
 - More...
 
+Usage: python classiccompiler.py -p <project-path>
+
 References:
 
 Lark Parser
