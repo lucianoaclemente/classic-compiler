@@ -1,4 +1,4 @@
-program: "program"i identifier ";" block "."
+program: "program"i identifier ";" (compiler_defined_directives)* block "."
 
 identifier: /\b[a-zA-Z]([a-zA-Z0-9\_]{0,30})\b/
 
@@ -171,6 +171,12 @@ record_variable_list: record_variable ("," record_variable)*
 // ================================================================
 // LOW LEVEL DEFINITIONS
 // ================================================================
+
+compiler_defined_directives: include_directive
+
+include_directive: "INCLUDE"i "'" filename "'" ";"
+
+filename: /[\w,\s-]+\.[A-Za-z]{3}/
 
 primitive: INTEGER
 		| FLOAT
