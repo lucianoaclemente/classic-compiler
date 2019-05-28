@@ -30,7 +30,7 @@ http://garrettimus.org/Jogos80/jogos80-13.pdf
 Oldbits Team YouTube channel
 https://www.youtube.com/channel/UCzXt3aICtFyDiXJKLKw-Wqw
 
-Demo MSXRio 2014 - Thanks to Ricardo Jurczyk Pinheiro
+OldBitsDevStudio Demo MSXRio 2014 - Thanks to Ricardo Jurczyk Pinheiro
 
 Part 1
 https://youtu.be/C-45Ybd2QO8
