@@ -1,9 +1,12 @@
 # coding: utf-8
 # poedit
-import sys, getopt
+import sys
+import getopt
+import os
 import gettext as gt
 import linecache
 
+from classes.common import Common
 from classes.compiler import Compiler
 from classes.project import Project
 from classes.helpers.labelmanager import LabelManager
@@ -25,14 +28,17 @@ for option, value in myopts:
     if option == '-p':
         project_path = value
     else:
-        print("Usage: %s -p project_path" % sys.argv[0])
+        print("Uso: %s -p project_path" % sys.argv[0])
         break
 
 try:
-    lang = gt.translation('classiccompiler', localedir='locale', languages=['pt_BR'])
+    Common.params["root_path"] = os.path.dirname(sys.modules['__main__'].__file__)
+    Common.params["project_path"] = project_path
+    
+    lang = gt.translation('classiccompiler', localedir=os.path.join(Common.params["root_path"], 'locale'), languages=['pt_BR'])
     lang.install()
 	
-    project = Project(project_path)
+    project = Project()
     
     print(_("Compilando..."))
     print(_("Máquina: %s, CPU: %s") % (project.machine["name"], project.machine["cpu"]))
