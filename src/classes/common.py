@@ -4,5 +4,8 @@ class Common:
     
     params = {}
     
+    identifiers = []
+
+    
     def __init__():
         none

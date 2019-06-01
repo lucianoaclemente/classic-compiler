@@ -1,4 +1,5 @@
 # coding: utf-8
+
 from classes.analysers.constantdefinition import ConstantDefinition
 from classes.analysers.includedirective import IncludeDirective
 
@@ -14,8 +15,8 @@ class Analyser:
         for child in subtree.children:
             if (type(child).__name__ == "Tree"):
                 if (child.data == "constant_definition"):
-                    constant = ConstantDefinition(child, level+2)                    
-                    self.constants.append(constant)
+                    analyser = ConstantDefinition()   
+                    analyser.analyse(child, level+2)                    
                 else:
                     self.createConstants(child, level+2)
 
