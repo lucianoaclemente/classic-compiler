@@ -1,19 +1,21 @@
 # coding: utf-8
+from classes.common import Common
 from classes.helpers.labelmanager import LabelManager
 class ConstantDefinition:
 
-    def __init__(self, subtree, level):
-        self.value = []
-        self.analyse(subtree, level)
+    def __init__(self):
+        self.items = { }
         
     def getToken(self, subtree, level, parent):
         for child in subtree.children:
             if (type(child).__name__ == "Token"):
-                self.value.append(child.type)
-                self.value.append(child.value)
-                
                 if (parent == "identifier"):
+                    self.items["class"] = "constant"
+                    self.items["name"] = child.value
                     LabelManager.next("constant", child.value)
+                else:
+                    self.items["type"] = child.type
+                    self.items["value"] = child.value
             else:
                 self.getToken(child, level+2, parent)
                 
@@ -21,7 +23,9 @@ class ConstantDefinition:
         
         for child in subtree.children:
             if (type(child).__name__ == "Tree"):
-                if (child.data == "identifier") or (child.data == "constant"):        
+                if (child.data == "identifier") or (child.data == "constant"):     
                     self.getToken(child, level+2, child.data)
                 else:
                     self.analyse(child, level+2)
+
+        Common.identifiers.append(self.items)
