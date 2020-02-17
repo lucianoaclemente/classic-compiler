@@ -13,7 +13,7 @@ Features:
 
 - Works on Windows and Linux
 
-- Supports locale
+- Supports locale (.po)
 
 - More...
 
