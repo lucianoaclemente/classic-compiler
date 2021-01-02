@@ -36,4 +36,4 @@ Part 1
 https://youtu.be/C-45Ybd2QO8
 
 Part 2
-https://youtu.be/C-45Ybd2QO8
+https://www.youtube.com/watch?v=_dUSCHxfVLk
