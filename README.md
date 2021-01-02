@@ -25,7 +25,7 @@ Lark Parser
 https://lark-parser.readthedocs.io/en/latest/
 
 Magazine - Jogos 80 - July/2014
-hhttp://jogos80.com.br/edicoes/arquivos/jogos80-13.pdf
+http://jogos80.com.br/edicoes/arquivos/jogos80-13.pdf
 
 Oldbits Team YouTube channel
 https://www.youtube.com/channel/UCzXt3aICtFyDiXJKLKw-Wqw
