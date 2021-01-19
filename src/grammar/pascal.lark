@@ -4,7 +4,7 @@ identifier: /\b[a-zA-Z]([a-zA-Z0-9\_]{0,30})\b/
 
 block: declaration_part (procedure_and_function_declaration_part)* statement_part
 
-declaration_part: (label_declaration_part?)~1 (constant_definition_part?)~1 (type_definition_part?)~1 (variable_declaration_part?)~1
+declaration_part: label_declaration_part? constant_definition_part? type_definition_part? variable_declaration_part?
 
 label_declaration_part: "label"i label_identifier ("," label_identifier)* ";"
 
@@ -62,7 +62,7 @@ procedure_or_function_declaration: procedure_declaration | function_declaration
 
 procedure_declaration: procedure_heading block
 
-procedure_heading: "procedure"i identifier ";" | "procedure"i identifier "(" formal_parameter_section (";" formal_parameter_section)* ")" ";"
+procedure_heading: "procedure"i identifier "()" ";" | "procedure"i identifier "(" formal_parameter_section (";" formal_parameter_section)* ")" ";"
 
 formal_parameter_section: parameter_group | "var"i parameter_group
 
@@ -70,7 +70,7 @@ parameter_group: identifier ("," identifier)* ":" type_identifier
 
 function_declaration: function_heading block
 
-function_heading: "function"i identifier ":" result_type ";" | "function"i identifier "(" formal_parameter_section (";" formal_parameter_section)* ")" ":" result_type ";"
+function_heading: "function"i identifier "()" ":" result_type ";" | "function"i identifier "(" formal_parameter_section (";" formal_parameter_section)* ")" ":" result_type ";"
 
 result_type: type_identifier
 
