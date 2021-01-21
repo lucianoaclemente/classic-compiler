@@ -174,7 +174,7 @@ record_variable_list: record_variable ("," record_variable)*
 
 compiler_defined_directives: include_directive
 
-include_directive: "INCLUDE"i "'" filename "'" ";"
+include_directive: "{$i" (WS)* filename "}"
 
 filename: /[\w,\s-]+\.[A-Za-z]{3}/
 

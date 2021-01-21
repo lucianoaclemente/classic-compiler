@@ -46,12 +46,16 @@ try:
     compiler = Compiler(project)
     compiler.compile()
 	
-    #print(compiler.files)
-    #print(LabelManager.identifiers)
-    #for item in compiler.analyser.constants:
-    #    print(item.value)
-    
-    
+    for file in compiler.files:
+        text_file = open("tree_" + file[0].replace('.','_') + ".txt", "w")
+        text_file.write(file[1].pretty())
+        text_file.close()
+
+    #print(Common.identifiers)
+    #print(compiler.analyser.constants)
+    for item in compiler.analyser.constants:
+        print(item)
+   
     print(_("Compilação concluída!"))
     
 except:

@@ -16,7 +16,7 @@ class Analyser:
             if (type(child).__name__ == "Tree"):
                 if (child.data == "constant_definition"):
                     analyser = ConstantDefinition()   
-                    analyser.analyse(child, level+2)                    
+                    self.constants.append(analyser.analyse(child, level+2))
                 else:
                     self.createConstants(child, level+2)
 
@@ -29,9 +29,15 @@ class Analyser:
                 else:
                     self.createInclude(child, level+2, include)
 
+        return include
+
                     
-    def checkIncludes(self, tree, include):
-        self.createInclude(tree, 0, include)
+    def checkIncludes(self, tree):
+        result = []
+        
+        self.createInclude(tree, 0, result)
+        
+        return result
         
     def checkDeclarations(self, tree):
         self.createConstants(tree, 0)

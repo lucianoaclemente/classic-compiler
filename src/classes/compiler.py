@@ -41,12 +41,11 @@ class Compiler:
         self.files.append([program, tree])
         currentFile = self.files[len(self.files)-1];
 
-        includes = []
+        includes = self.analyser.checkIncludes(tree)
 
-        self.analyser.checkIncludes(tree, includes)
-
-        for includeFile in includes:
-            self.parseFile(rootPath, includeFile.value)   
+        for include in includes:
+            print(include)
+            self.parseFile(rootPath, include.value)   
     
     def __checkDeclarations(self, tree):
         self.analyser.checkDeclarations(tree)         

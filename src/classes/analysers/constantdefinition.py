@@ -28,4 +28,4 @@ class ConstantDefinition:
                 else:
                     self.analyse(child, level+2)
 
-        Common.identifiers.append(self.items)
+        return self.items
