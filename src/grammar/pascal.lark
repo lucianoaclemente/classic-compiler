@@ -158,11 +158,11 @@ for_statement: "for"i control_variable ":=" for_list "do"i statement
 
 control_variable: identifier
 
-for_list: initial_value "to"i final_value | initial_value "downto"i final_value
+for_list: initial_value "to"i final_value | initial_value "downto"i final_value 
 
-initial_value: expression
+initial_value: integer
 
-final_value: expression
+final_value: integer
 
 with_statement: "with"i record_variable_list "do"i statement
 
@@ -178,26 +178,26 @@ include_directive: "{$i" (WS)* filename "}"
 
 filename: /[\w,\s-]+\.[A-Za-z]{3}/
 
-primitive: INTEGER
-		| FLOAT
-		| BOOLEAN
-		| CHAR
-		| STRING
-		| HEXLITERAL
-		| BINLITERAL
+primitive: integer
+		| float
+		| boolean
+		| char
+		| string
+		| hexliteral
+		| binliteral
 
 // ---------------------- Primitives 	   
 	      
-INTEGER: /([+-]?[1-9]\d*|0)/
-FLOAT: /[-+]?\-?\d+\.\d+/
-BOOLEAN: /(?i)(true|false)/
-CHAR: "'" /([^'])/ "'"
-STRING: "'" /([^']+){2,}/ "'"
+integer: /([+-]?[1-9]\d*|0)/
+float: /[-+]?\-?\d+\.\d+/
+boolean: /(?i)(true|false)/
+char: "'" /([^'])/ "'"
+string: "'" /([^']+){2,}/ "'"
 
 // ---------------------- Literal
 
-HEXLITERAL: /[$][0-9a-fA-F]+/	
-BINLITERAL: /[%][01]+/   
+hexliteral: /[$][0-9a-fA-F]+/	
+binliteral: /[%][01]+/   
 
 COMMENT:  /\{(.|\n)+\}/
        |  /\/\/(.)+/
