@@ -53,8 +53,8 @@ try:
 
     #print(Common.identifiers)
     #print(compiler.analyser.constants)
-    for item in compiler.analyser.constants:
-        print(item)
+    #for item in compiler.analyser.constants:
+    #    print(item)
    
     print(_("Compilação concluída!"))
     

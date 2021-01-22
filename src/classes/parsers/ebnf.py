@@ -5,7 +5,7 @@ class EBNF:
     def __init__(self, filename):
         self.ebnf = open(filename, mode="r", encoding="utf-8")
         self.grammar = self.ebnf.read()
-        self.parser = Lark(self.grammar, start="program", keep_all_tokens="true")
+        self.parser = Lark(self.grammar, start="program", keep_all_tokens="false")
         
     def parse(self, program):
         program = open(program, mode="r", encoding="utf-8")        

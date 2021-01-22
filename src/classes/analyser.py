@@ -16,6 +16,7 @@ class Analyser:
             if (type(child).__name__ == "Tree"):
                 if (child.data == "constant_definition"):
                     analyser = ConstantDefinition()   
+                    print(child)
                     self.constants.append(analyser.analyse(child, level+2))
                 else:
                     self.createConstants(child, level+2)
