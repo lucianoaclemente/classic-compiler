@@ -2,10 +2,8 @@
 
 class Common:
     
-    params = {}
-    
-    identifiers = []
-
+    params = {}    
+    #identifiers = []
     
     def __init__():
         none

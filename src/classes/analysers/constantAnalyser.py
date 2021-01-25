@@ -2,7 +2,7 @@
 from classes.common import Common
 from classes.helpers.labelmanager import LabelManager
 
-class ConstantDefinition:
+class ConstantAnalyser:
 
     def __init__(self):
         self.items = { }

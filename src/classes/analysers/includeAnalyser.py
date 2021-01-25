@@ -1,5 +1,5 @@
 # coding: utf-8
-class IncludeDirective:
+class IncludeAnalyser:
 
     def __init__(self, subtree, level):
         self.value = ""

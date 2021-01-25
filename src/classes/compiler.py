@@ -13,6 +13,19 @@ class Compiler:
     root_path = ""
     project_path = ""
     
+    def __init__(self, project):
+        self.project = project
+        self.analyser = Analyser()
+        self.files = []
+        self.statements = dict([])
+         
+        grammarFile = os.path.join(Common.params["root_path"], "grammar/") + self.project.config['language'] + ".lark"
+         
+        if (os.path.exists(grammarFile)):
+             self.parser = EBNF(grammarFile)
+        else:
+            raise Exception(_("Arquivo de linguagem não encontrado: %s") % self.project.config["language"]) 
+
     def find(self, pattern, path):
         result = []
 
@@ -23,32 +36,14 @@ class Compiler:
 					
         return result
 
-    def __init__(self, project):
-        self.project = project
-        self.analyser = Analyser()
-        self.files = []         
-         
-        grammarFile = os.path.join(Common.params["root_path"], "grammar/") + self.project.config['language'] + ".lark"
-         
-        if (os.path.exists(grammarFile)):
-             self.parser = EBNF(grammarFile)
-        else:
-            raise Exception(_("Arquivo de linguagem não encontrado: %s") % self.project.config["language"])         
-
-    def parseFile(self, rootPath, program):
-        tree = self.parser.parse(os.path.join(rootPath, program))
-    
-        self.files.append([program, tree])
-        currentFile = self.files[len(self.files)-1];
+    def parseFile(self, rootPath, filename):
+        tree = self.parser.parse(os.path.join(rootPath, filename))    
+        self.files.append({ 'filename' : filename, 'tree': tree })
 
         includes = self.analyser.checkIncludes(tree)
 
-        for include in includes:
-            print(include)
+        for include in includes:           
             self.parseFile(rootPath, include.value)   
-    
-    def __checkDeclarations(self, tree):
-        self.analyser.checkDeclarations(tree)         
          
     def compile(self):
 		# procurando arquivo principal
@@ -61,20 +56,17 @@ class Compiler:
             
             # nivel 1 
             # parser / analyser 
-            # Lexica / sintatica
-		
+            # Lexica / sintatica		
             self.parseFile(rootPath, mainFile)
         
             # nivel 2 
-            # varre a arvore e cria todos os elementos 
-			
+            # varre a arvore e cria todos os elementos 			
             for file in self.files:
-                filename = file[0]
-                tree = file[1]
-			
-                self.__checkDeclarations(tree)
+                filename = file['filename']
+                tree = file['tree']
+
+                self.analyser.analyse(tree, self.statements)
+
+            print(self.statements['assignment_statement'])
         else:
-            raise Exception(_("Arquivo principal não foi encontrado"))   
-         
-         
-         
+            raise Exception(_("Arquivo principal não foi encontrado"))

@@ -47,8 +47,11 @@ try:
     compiler.compile()
 	
     for file in compiler.files:
-        text_file = open("tree_" + file[0].replace('.','_') + ".txt", "w")
-        text_file.write(file[1].pretty())
+        filename = file['filename']
+        tree = file['tree']
+
+        text_file = open("tree_" + filename.replace('.','_') + ".txt", "w")
+        text_file.write(tree.pretty())
         text_file.close()
 
     #print(Common.identifiers)
@@ -56,6 +59,8 @@ try:
     #for item in compiler.analyser.constants:
     #    print(item)
    
+    
+
     print(_("Compilação concluída!"))
     
 except:
